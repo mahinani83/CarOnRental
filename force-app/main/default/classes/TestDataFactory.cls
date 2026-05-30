@@ -1,0 +1,64 @@
+@isTest
+public with sharing class TestDataFactory {
+     // creating contact
+        public static List<Contact> createContacts(Integer noOfContacts){
+            List<Contact> contactsToCreate = new List<Contact>();
+
+            for(Integer i = 0; i < noOfContacts; i++){
+                Contact newContact = new Contact(
+                    FirstName = 'Test',
+                    LastName = 'Contact ' + i,
+                    Email = 'testcontact' + i + '@nomail.com'
+                );
+                contactsToCreate.add(newContact);
+            }
+            insert contactsToCreate;
+
+            return contactsToCreate;
+        } 
+        // creating cars
+        public static List<Car__c> createCars(Integer numberOfRecords) {
+
+            List<Car__c> carsToInsert = new List<Car__c>();
+            for(Integer i = 0; i < numberOfRecords; i++){
+                Car__c newCar  = new Car__c( Name = 'Test Car ' + i,
+                    Make__c = 'TATA',
+                    Model__c = 'Nexon',
+                    Fuel_Type__c = 'Petrol',
+                    Transmission_Type__c = 'Automatic',
+                    Year__c = 2020,
+                    Availability_Status__c = 'Available',
+                    Rental_Rate_Per_Day__c = 100.00,
+                    Mileage_Limit_Per_Day__c =  200,
+                    Number_of_Seats__c = 5,
+                    PickupLocation__c = 'Pune'
+                );
+
+                carsToInsert.add(newCar);
+            }
+
+            insert carsToInsert;
+            return carsToInsert;
+        }
+
+        // creating booking
+
+        public static List<Booking__c> createBookings(Integer numberOfRecords,List<Contact> contacts,List<Car__c> cars) {            List<Booking__c> bookings = new List<Booking__c>();
+            for (Integer i = 0;i < numberOfRecords; i++){
+                Contact con = contacts[Math.mod(i, contacts.size())];
+                Car__c car = cars[Math.mod(i, cars.size())];
+                Booking__c booking = new Booking__c(
+                    Customer__c = con.Id,
+                    Car__c = car.Id,
+                    Start_Date_Time__c = Datetime.now().addDays(1),
+                    End_Date_Time__c = Datetime.now().addDays(3),
+                    Status__c = CONSTANTS.BOOKING_PENDING_STATUS,
+                    payment_status__c = Constants.BOOKING_PAYMENT_PENDING,
+                    Final_Booking_Price__c = 200.00 //rental rate of car * duration of booking
+                );
+                bookings.add(booking);
+            }
+            insert bookings;
+            return bookings;
+        }
+}
