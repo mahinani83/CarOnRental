@@ -1,4 +1,3 @@
-
 public with sharing class Constants {
    
     public static final String SUCCESS = 'Success';
@@ -18,6 +17,8 @@ public with sharing class Constants {
     public static final String NEGATIVE_REVIEW_CASE_TYPE = 'Review_Issue';
     public static final String CASE_PRIORITY_MEDIUM = 'Medium';
     public static final Integer DEFAULT_RATING_THRESHOULD = 5;
-    public static final Integer LOW_RATING_THRESHOULD = 3;
+    public static final String SECURITY_DEPOSIT_THRESHOLD = 'security_diposite_percentage';
+    public static final Integer LOW_RATING_THRESHOLD = 3;
+    public static final String CUSTOMER_SUPPORT_PUBLIC_GROUP = 'Customer_Support';
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Booking_Status_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL( Status__c , &apos;Completed&apos;) &amp;&amp;  NOT( ISPICKVAL( Payment_Status__c , &apos;Paid&apos;) )</errorConditionFormula>
+    <errorMessage>Booking Status Can not be Completed if the payment is is not pad</errorMessage>
+</ValidationRule>

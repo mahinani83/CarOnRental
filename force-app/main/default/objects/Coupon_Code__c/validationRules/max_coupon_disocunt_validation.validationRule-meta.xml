@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>max_coupon_disocunt_validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>Discount_Percentage__c &gt; value( $CustomMetadata.System_thredshould__mdt.max_coupon_code_discount.value__c )</errorConditionFormula>
+    <errorMessage>Please Check the Max Coupon Code value</errorMessage>
+</ValidationRule>

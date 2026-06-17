@@ -68,4 +68,3 @@ public with sharing class PaymentTransactionTriggerHandlerService{
         return currentBookingStatus;
     }
 }
-
