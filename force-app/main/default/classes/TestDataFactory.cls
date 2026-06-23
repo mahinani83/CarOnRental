@@ -61,4 +61,22 @@ public with sharing class TestDataFactory {
             insert bookings;
             return bookings;
         }
+        
+        public static List<Review__c> createReviews(Integer numberOfRecords,List<Contact> contacts,List<Booking__c> bookings,Integer rating) {
+         List<Review__c> reviews = new List<Review__c>();
+         for (Integer i = 0;i < numberOfRecords;i++){
+             Contact con = contacts[Math.mod(i, contacts.size())];
+             Booking__c booking = bookings[Math.mod(i, bookings.size())];
+             Review__c review = new Review__c(
+                    Booking__c = booking.Id,
+                    Customer__c = con.Id,
+                    Rating__c = rating,
+                    Comments__c = 'Test Comments ' + i
+             );
+             reviews.add(review);
+         }
+          insert reviews;
+          return reviews;
+    }
+
 }

@@ -66,8 +66,8 @@ public with sharing class ReviewTriggerService {
 
     Set<Id> existingCaseReviewRecordIds = new Set<Id>();
 
-    for(Case case : existingCaseRecords){
-        existingCaseReviewRecordIds.add(case.Review_ID__c);
+    for(Case caseRecord : existingCaseRecords){
+        existingCaseReviewRecordIds.add(caseRecord.Review_ID__c);
     }
 
     List<Case> caseToAdd = new List<Case>();
@@ -110,26 +110,37 @@ public with sharing class ReviewTriggerService {
         // 2. update the average rating of with the that average rating 
 
         Set<Id> bookingIds = getBookingIds(reviews);
+        System.debug('bookingids i got ' + bookingIds);
         set<Id> carIds = new Set<Id>();
         List<Car__c> carList = new List<Car__c>();
 
 
+
+
         // get booking records with id 
         Map<Id,booking__c> bookingsMap = new Map<Id,booking__c>([SELECT Id, Car__c from Booking__c where id in :bookingIds]);
-        Map<Id,Id> carIdreviewidMap = getCarReviewIds(reviews,bookingIds,carIds);
+        Map<Id,Id> carIdreviewidMap = getCarReviewIds(reviews,bookingsMap,carIds);
+        System.debug('carIds i go tin update car average rating ' + carIds);
         Map<Id,Decimal> carAverageRatingMap = new Map<Id,Decimal>();
 
         // get average rating of each car and updating it to the car rating 
         for(AggregateResult agr : [select Booking__r.Car__c carId, avg(Rating__c) avgRating from review__c 
-                               where Booking__r.Car__c in :carIdSet group by Booking__r.Car__c]){
-                                
+                               where Booking__r.Car__c in :carIds group by Booking__r.Car__c]){ 
                                 Id carId = (Id) agr.get('carId');
                                 Decimal averageRating = (Decimal) agr.get('avgRating');
+                                System.debug('average Rating valuein inside of loop ' + averageRating);
                                 carAverageRatingMap.put(carId,averageRating.round(System.RoundingMode.HALF_UP));
         }
 
 
-        for(Id carId : carIdSet){
+    
+
+
+
+        System.debug('carIds debug before for loop' + carIds);
+
+        for(Id carId : carIds){
+            System.debug('debug login inside of for loop ' + carId);
             Car__c car = new Car__c(Id = carId);
             if(carAverageRatingMap.containsKey(carId)) car.Average_Rating__c = carAverageRatingMap.get(carId);
             else car.Average_Rating__c = null;
@@ -153,12 +164,13 @@ public with sharing class ReviewTriggerService {
     }
     // ---- helper methods -----------------------
 
-    public static Map<Id,Id> getCarReviewIds(List<Review__c> reviews,Set<Id> bookingIds,Set<Id> carIds){
+    public static Map<Id,Id> getCarReviewIds(List<Review__c> reviews,Map<Id,Booking__c> bookingMap,Set<Id> carIds){
         Map<Id,Id> reviewCarIdMap = new Map<Id,Id>();
         for(Review__c review : reviews){
-            if(review.Booking__c != null){
-                carIds.add(review.Booking__r.carId__c);
-                reviewCarIdMap.put(review.Id,review.Booking__r.carId__c);
+            if( review.Booking__c != null && bookingMap.containsKey(review.Booking__c)){
+                System.debug('inside of for loop for car__c ' + review.Booking__r.Car__c);
+                carIds.add(bookingMap.get(review.Booking__c).Car__c);
+                reviewCarIdMap.put(review.Id,review.Booking__r.car__c);
             }
         }
         return reviewCarIdMap;
