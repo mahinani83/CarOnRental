@@ -2,7 +2,10 @@ public with sharing class ReviewTriggerService {
    
 
     public static void shareLowRatingAndCreateCase(List<Review__c> lowReviews){
-        Group customerSupportGroup = [select id from group where developerName = :Constants.CUSTOMER_SUPPORT_PUBLIC_GROUP];
+        system.debug('inside of sharelowrating and create case');
+
+        Group customerSupportGroup = [select id,type from group where developerName = :Constants.CUSTOMER_SUPPORT_PUBLIC_GROUP];
+        System.debug('customer support group ' + customerSupportGroup.Type);
 
         Set<id> bookingIds = new Set<Id>();
 
@@ -13,7 +16,9 @@ public with sharing class ReviewTriggerService {
         }
 
         // get all the bookingshared records which share witht eh group 
-        List<Booking__share> bookingShares = [select id from Booking__Share where parentId in :bookingIds and userOrGroupId = :customerSupportGroup.Id and RowCause = :Schema.Booking__share.RowCause.Manual];
+        List<Booking__share> bookingShares = [select id,parentId from Booking__Share where parentId in :bookingIds and userOrGroupId = :customerSupportGroup.Id and RowCause = :Schema.Booking__share.RowCause.Manual];
+        System.debug('booking shared inside of shareLowRatingAndCreateCase' + bookingShares);
+        
 
         set<Id> alreadySharedBookingIds = new set<Id>();
 
@@ -29,9 +34,14 @@ public with sharing class ReviewTriggerService {
                 bookingShare.parentId = bookingId;
                 bookingShare.userOrGroupId = customerSupportGroup.Id;
                 bookingShare.RowCause = Schema.Booking__share.RowCause.Manual;
+                bookingShare.AccessLevel = 'Edit';
                 bsrToInsert.add(bookingShare);
             }   
         }
+
+        system.debug('bsr record inside of sharelowrating and create case function' + bsrToInsert);
+
+
 
         try{
             if(bsrToInsert.size() > 0) insert bsrToInsert;
@@ -41,6 +51,9 @@ public with sharing class ReviewTriggerService {
             logger.publish(ex.getMessage());
         }
 
+        system.debug('inside of share low rating function');
+        
+        createCaseRecord(lowReviews);
     }
 
 
@@ -157,10 +170,6 @@ public with sharing class ReviewTriggerService {
                 logger.publish(ex.getMessage());
             }
         }
-
-
-
-
     }
     // ---- helper methods -----------------------
 

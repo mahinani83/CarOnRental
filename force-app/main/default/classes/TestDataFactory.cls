@@ -62,21 +62,34 @@ public with sharing class TestDataFactory {
             return bookings;
         }
         
-        public static List<Review__c> createReviews(Integer numberOfRecords,List<Contact> contacts,List<Booking__c> bookings,Integer rating) {
-         List<Review__c> reviews = new List<Review__c>();
-         for (Integer i = 0;i < numberOfRecords;i++){
-             Contact con = contacts[Math.mod(i, contacts.size())];
-             Booking__c booking = bookings[Math.mod(i, bookings.size())];
-             Review__c review = new Review__c(
-                    Booking__c = booking.Id,
-                    Customer__c = con.Id,
-                    Rating__c = rating,
-                    Comments__c = 'Test Comments ' + i
-             );
-             reviews.add(review);
-         }
-          insert reviews;
-          return reviews;
+    public static List<Review__c> createReviews(Integer numberOfRecords,List<Contact> contacts,List<Booking__c> bookings,Integer rating) {
+        System.debug('noofrecods ' + numberOfRecords + '' + 'contacts passed ' + contacts + ' ' + 'bookings ' + bookings + ' ' + 'rating passed' + rating );
+        List<Review__c> reviews = new List<Review__c>();
+        for (Integer i = 0;i < numberOfRecords;i++){
+            Contact con = contacts[Math.mod(i, contacts.size())];
+            Booking__c booking = bookings[Math.mod(i, bookings.size())];
+            System.debug('con and bookings ' + con + ' ' + booking);
+            Review__c review = new Review__c(
+                Booking__c = booking.Id,
+                Customer__c = con.Id,
+                Rating__c = rating,
+                Comments__c = 'Test Comments ' + i
+            );
+            reviews.add(review);
+        }
+        System.debug('reviews insid ecreateReviews ' + reviews);
+        insert reviews;
+        return reviews;
+    }
+
+    // test data helper functions 
+    public static void updateReviewRating(List<Review__c> reviews,Integer rating){
+        // List<Review__c> updateReviews = new List<Review__c>();
+        for(Review__c review : reviews){
+            review.rating__c = rating;
+            // updateReviews.add(review);
+        }
+        // return updateReviews;
     }
 
 }
