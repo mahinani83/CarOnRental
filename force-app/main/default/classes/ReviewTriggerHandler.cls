@@ -4,6 +4,7 @@ public with sharing class ReviewTriggerHandler extends TriggerHandler {
     }
 
     override public void afterInsert(){
+        System.debug('debug logs inside of after insert');
         List<Review__c> lowReviews = new List<Review__c>();
         List<Review__c> reviews = (List<Review__c>) trigger.new;
         for(Review__c review : reviews){
