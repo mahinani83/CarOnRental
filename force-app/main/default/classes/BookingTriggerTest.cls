@@ -22,7 +22,6 @@ public with sharing class BookingTriggerTest {
         newBooking.Final_Booking_Price__c = 200;
 
         insert newBooking;
-        System_thredshould__mdt securityDepositThr = System_thredshould__mdt.getInstance(Constants.SECURITY_DEPOSIT_THRESHOLD);
         Decimal sercurityDepositeDecimalVal =  Decimal.valueOf(securityDepositThr.value__c)/100;
         Decimal securityDepositVal = sercurityDepositeDecimalVal * newBooking.Final_Booking_Price__c;
 

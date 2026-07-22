@@ -20,5 +20,11 @@ public with sharing class Constants {
     public static final String SECURITY_DEPOSIT_THRESHOLD = 'security_diposite_percentage';
     public static final Integer LOW_RATING_THRESHOLD = 3;
     public static final String CUSTOMER_SUPPORT_PUBLIC_GROUP = 'customer_support_pg';
+    public static final String EMAIL_REPUTATION_APIKEY = 'Email_Reputation';
+    public static final String STATUS_EMAIL = 'deliverable';
+    public static final String STATUS_DETAIL_EMAIL = 'valid_email';
+    public static final Integer ALLOWED_DAYS_LOGS = 2;
+    public static final String TO_EMAIL_METADATA_API = 'Log_Clearnup_Notification';
+
 
 }
