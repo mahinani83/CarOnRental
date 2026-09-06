@@ -1,0 +1,13 @@
+<template>
+    <div class="rating">
+        <template for:each={stars} for:item="star">
+            <span
+                key={star.id}
+                class={star.class}
+                data-value={star.id}
+                onclick={handleClick}>
+                ★
+            </span>
+        </template>
+    </div>
+</template>

@@ -25,6 +25,6 @@ public with sharing class Constants {
     public static final String STATUS_DETAIL_EMAIL = 'valid_email';
     public static final Integer ALLOWED_DAYS_LOGS = 2;
     public static final String TO_EMAIL_METADATA_API = 'Log_Clearnup_Notification';
-
+    public static final String IMAGE_PATH_HELPER = '/sfc/servlet.shepherd/version/download/';
 
 }
