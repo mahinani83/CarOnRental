@@ -5,7 +5,7 @@
   import FUEL_TYPE from "@salesforce/schema/Car__c.Fuel_Type__c";
   import PICKUP_LOCATION from "@salesforce/schema/Car__c.PickupLocation__c";
   import recordSelected from "@salesforce/messageChannel/carFilter__c";
-
+  import getCars from "@salesforce/apex/carTileListController.getCars";
 
 
   const DELAY = 350;
@@ -33,6 +33,8 @@
 
     temp = false;
     delayTimeout;
+
+    
 
     @wire(MessageContext)
     messageContext;
@@ -91,9 +93,11 @@
 
     handleStartDateChange(event){
     this.filters.startDate = event.detail.value;
+     this.publishFilter();
   }
   handleEndDateChange(event){
     this.filters.endDate = event.detail.value;
+     this.publishFilter();
   }
   handleMaxSeatsChange(event){
     this.filters.maxSeats = event.detail.value;
