@@ -15,7 +15,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin } from "lightning/navigation";
 import BOOKING_OBJECT from "@salesforce/schema/Booking__c";
 
-export default class CarTileList extends LightningElement {
+export default class CarTileList extends NavigationMixin(LightningElement) {
 
 
 
@@ -80,8 +80,14 @@ export default class CarTileList extends LightningElement {
 
     handleEstimateBooking(event) {
       console.log("handleEstimateBooking");
+          console.log("Car ID:", event.detail);
+    console.log("Start Date:", this.filters.startDate);
+    console.log("End Date:", this.filters.endDate);
+
       EstimateCarBooking.open({
       carId: event.detail,
+      startDate: this.filters.startDate,
+      endDate:  this.filters.endDate,
       size: "medium"
     });
   }

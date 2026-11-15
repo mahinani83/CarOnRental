@@ -101,9 +101,12 @@
   }
   handleMaxSeatsChange(event){
     this.filters.maxSeats = event.detail.value;
+    this.publishFilter();
   }
+  
   handleMaxRentalRateChange(event){
     this.filters.maxRentalRate = event.detail.value;
+    this.publishFilter();
   }
 
   handleMinRatingChange(event) {

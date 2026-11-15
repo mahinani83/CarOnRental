@@ -85,13 +85,18 @@ public with sharing class carTileListController {
         if(!carIds.isEmpty()){
             criteria.add('id not in :carIds');
         }
+        System.debug(LoggingLevel.ERROR, 'availableCars: ' + availableCars);
+System.debug(LoggingLevel.ERROR, 'pickupLocation: ' + pickupLocation);
+System.debug(LoggingLevel.ERROR, 'maxSeats: ' + maxSeats);
+System.debug(LoggingLevel.ERROR, 'maxRentalRate: ' + maxRentalRate);
+System.debug(LoggingLevel.ERROR, 'minRating: ' + minRating);
 
-
+        System.debug('carids which are removed ' + carIds);
         String queryToGetCars = 'SELECT Id,Average_Rating__c,Availability_Status__c,Car_Description__c,Car_Family__c,Fuel_Type__c,Make__c,Mileage_Limit_Per_Day__c,Model__c,Name,Number_of_Seats__c,PickupLocation__c,Primary_Image_Url__c,Rental_Rate_Per_Day__c,Transmission_Type__c  FROM Car__c';
         String whereClause = ' WHERE ' + String.join(criteria, ' AND ');
         queryToGetCars = queryToGetCars + whereClause + ' order by Name';
         
-        System.debug('query to get cars' + queryToGetCars);
+        System.debug(LoggingLevel.ERROR, 'FINAL SOQL QUERY: ' + queryToGetCars);
         return Database.query(queryToGetCars);
 
     }
