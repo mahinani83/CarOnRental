@@ -41,10 +41,11 @@ export default class CarTiles extends LightningElement {
     }
 
     handleBookNowClick(){
+        console.log("clicking the handle Book", this.car.Id);
         const bookNow = new CustomEvent("booknow",{
             detail: this.car.Id
         });
-        this.dispachEvent(bookNow);
+        this.dispatchEvent(bookNow);
     }
 
     
